@@ -14,7 +14,7 @@ class EEGDataset(Dataset):
         self.y = torch.tensor(y, dtype=torch.long)
 
     def __len__(self):
-        return len(self.y)
+        return len(self.y) 
 
     def __getitem__(self, i):
         return self.X[i], self.y[i]
