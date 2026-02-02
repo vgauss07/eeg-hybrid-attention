@@ -1,0 +1,84 @@
+# ============================================================
+# Global experiment configuration
+# ============================================================
+
+experiment:
+  name: "EEGNet_Attention_Ablation"
+  seed: 42
+  device: "auto"        # auto | cpu | cuda
+  results_root: "results"
+
+# ============================================================
+# Dataset configurations
+# ============================================================
+
+datasets:
+
+  bciciv2a:
+    enabled: true
+    data_dir: "data/bciciv2a"
+    session_suffix: "T"
+    subjects: [1,2,3,4,5,6,7,8,9]
+
+    preprocessing:
+      tmin: 0.0
+      tmax: 4.0
+      l_freq: 4.0
+      h_freq: 38.0
+
+  things_eeg:
+    enabled: false
+    npz_path: "data/things_eeg/things_eeg_preprocessed.npz"
+
+# ============================================================
+# Training / LOSO settings
+# ============================================================
+
+training:
+  loso:
+    val_ratio: 0.15
+    epochs: 120
+    batch_size: 32
+    learning_rate: 0.001
+    save_checkpoints: false
+
+# ============================================================
+# Model hyperparameters
+# ============================================================
+
+model:
+  eegnet:
+    F1: 8
+    D: 2
+    F2: 16
+    kernel_length: 64
+    dropout: 0.25
+
+  mha:
+    heads: 4
+    dropout: 0.1
+
+# ============================================================
+# Ablation definitions
+# ============================================================
+
+ablations:
+  - name: "cnn_only"
+    attention: null
+
+  - name: "cnn_se"
+    attention: "se"
+
+  - name: "cnn_cbam"
+    attention: "cbam"
+
+  - name: "cnn_mha"
+    attention: "mha"
+
+# ============================================================
+# Visualization
+# ============================================================
+
+visualization:
+  enabled: true
+  dpi: 200
